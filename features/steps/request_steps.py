@@ -3,7 +3,7 @@ import requests
 import json
 from jsonschema import validate
 
-from features.steps.utils import get_json_data
+from Helpers.utils import get_json_data
 
 api_url = "https://localhost:8080/"
 token = ""
@@ -14,6 +14,18 @@ params = {}
 @given(u'the endpoint {endpoint}')
 def step_impl(context, endpoint):
     context.url = api_url + endpoint + '/'
+    # asserts can be added as required
+
+@given(u'User name is {value}')
+def step_impl(context, parameter, value):
+    params["UserName"] = value
+    context.data = params
+    # asserts can be added as required
+
+@given(u'User ID is {value}')
+def step_impl(context, parameter, value):
+    params["UserID"] = value
+    context.data = params
     # asserts can be added as required
 
 @given(u'Balance is {value}')
@@ -45,10 +57,16 @@ def step_impl(context, parameter, value):
     context.data = params
     # asserts can be added as required
 
-@when(u'method get')
-def step_impl(context):
+@when(u'method get with params')
+def step_impl(context, params):
     context.response = requests.get(context.url, headers=headers)
-    # asserts can be added as required
+    assert int(context.response.account_balance) == int(params.New_Balance)
+    # more asserts can be added as required
+
+@when(u'method put with params')
+def step_impl(context, params):
+    context.response = requests.put(context.url , params=context.data, headers=headers)
+    # more asserts can be added as required
 
 @when(u'method post with params')
 def step_impl(context):
