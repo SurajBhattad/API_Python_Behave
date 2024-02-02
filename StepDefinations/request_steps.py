@@ -16,12 +16,6 @@ def step_impl(context, endpoint):
     context.url = api_url + endpoint + '/'
     # asserts can be added as required
 
-@given(u'User name is {value}')
-def step_impl(context, parameter, value):
-    params["UserName"] = value
-    context.data = params
-    # asserts can be added as required
-
 @given(u'User ID is {value}')
 def step_impl(context, parameter, value):
     params["UserID"] = value
